@@ -1,0 +1,126 @@
+/* Global */
+:root {
+    --background1: #D6A4A4;
+    --background2: #DAE2F8;
+    --text-color: #333;
+}
+
+body {
+    margin: 0;
+    background: var(--background2);
+    background: -webkit-linear-gradient(to bottom, var(--background1), var(--background2));
+    background: linear-gradient(to bottom, var(--background1), var(--background2));
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Raleway', sans-serif;
+}
+
+#container {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 80%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 6fr;
+    background-color: rgba(119, 119, 119, 0.1);
+    border-radius: 5px;
+    padding: 20px;
+}
+
+h2, h3, a, .day {
+    color: var(--text-color);
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Header */
+header {
+    max-height: 80px;
+}
+
+#container header h2 {
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(50%);
+}
+
+/* Navigation */
+
+nav {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: 1fr;
+    align-items: center;
+    margin: 0 0 30px 0;
+}
+
+#navigation {
+    grid-column: 2 / 4;
+    justify-self: end;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr;
+    align-items: center;
+}
+
+/* #navigation a i {
+    margin: 0 10px;
+} */
+
+button {
+    width: 80px;
+    height: 35px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+#calType {
+    grid-column: 5 / 8;
+    justify-self: start;
+}
+
+#calType button:nth-child(2), #calType button:last-child {
+    margin: 0 10px;
+}
+
+/* Calendar */
+
+#calendar {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 10fr;
+}
+
+#days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: 1fr;
+    grid-column: 1/2;
+}
+
+#calendar #days h3 {
+    display: inline;
+    margin: 0;
+}
+
+#dayNums {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+}
+
+#calendar #dayNums .day {
+    min-height: 100px;
+}
+
+#calendar #dayNums .day p {
+    margin: 0;
+    text-align: end; 
+}

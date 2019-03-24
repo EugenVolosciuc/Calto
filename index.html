@@ -5,35 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Calendar App</title>
+    <title>Document</title>
 </head>
 
 <body>
-    <div id="container">
+    <div class="container">
+        <!-- Navigation -->
         <header>
-            <h2>March 2019</h2>
+            <h2><span id="month"></span> <span id="year"></span></h2>
         </header>
-        <nav>
-            <span id="navigation">
-                <a href="#"><i class="fas fa-angle-double-left fa-2x"></i></a>
-                <a href="#"><i class="fas fa-angle-left fa-2x"></i></a>
-                <a href="#"><i class="fas fa-angle-right fa-2x"></i></a>
-                <a href="#"><i class="fas fa-angle-double-right fa-2x"></i></a>
+        <nav id="navigation">
+            <span>
                 <button><a id="daily" href="#">Today</a></button>
             </span>
-            <span id="calType">
-                <button><a id="daily" href="#">Daily</a></button>
-                <button><a id="weekly" href="#">Weekly</a></button>
-                <button><a id="monthly" href="#">Monthly</a></button>
-                <button><a id="yearly" href="#">Yearly</a></button>
+            <span>
+                <!-- <a href="#"><i class="fas fa-angle-double-left fa-2x"></i></a> -->
+                <a href="#"><i class="fas fa-angle-left fa-2x previous"></i></a>
+                <a href="#"><i class="fas fa-angle-right fa-2x next"></i></a>
+                <!-- <a href="#"><i class="fas fa-angle-double-right fa-2x"></i></a> -->
+            </span>
+            <span>
+                <button id="addNew"><a href="#">Add New Event</a></button>
             </span>
         </nav>
+        <!-- Calendar -->
         <div id="calendar">
-            <div id="days">
+            <div id="daysOfMonth">
                 <h3>Monday</h3>
                 <h3>Tuesday</h3>
                 <h3>Wednesday</h3>
@@ -42,116 +42,55 @@
                 <h3>Saturday</h3>
                 <h3>Sunday</h3>
             </div>
-            <div id="dayNums">
-                <div class="day">
-                    <p>25</p>
-                </div>
-                <div class="day">
-                    <p>26</p>
-                </div>
-                <div class="day">
-                    <p>27</p>
-                </div>
-                <div class="day">
-                    <p>28</p>
-                </div>
-                <div class="day">
-                    <p>1</p>
-                </div>
-                <div class="day">
-                    <p>2</p>
-                </div>
-                <div class="day">
-                    <p>3</p>
-                </div>
-                <div class="day">
-                    <p>4</p>
-                </div>
-                <div class="day">
-                    <p>5</p>
-                </div>
-                <div class="day">
-                    <p>6</p>
-                </div>
-                <div class="day">
-                    <p>7</p>
-                </div>
-                <div class="day">
-                    <p>8</p>
-                </div>
-                <div class="day">
-                    <p>9</p>
-                </div>
-                <div class="day">
-                    <p>10</p>
-                </div>
-                <div class="day">
-                    <p>11</p>
-                </div>
-                <div class="day">
-                    <p>12</p>
-                </div>
-                <div class="day">
-                    <p>13</p>
-                </div>
-                <div class="day">
-                    <p>14</p>
-                </div>
-                <div class="day">
-                    <p>15</p>
-                </div>
-                <div class="day">
-                    <p>16</p>
-                </div>
-                <div class="day">
-                    <p>17</p>
-                </div>
-                <div class="day">
-                    <p>18</p>
-                </div>
-                <div class="day">
-                    <p>19</p>
-                </div>
-                <div class="day">
-                    <p>20</p>
-                </div>
-                <div class="day">
-                    <p>21</p>
-                </div>
-                <div class="day">
-                    <p>22</p>
-                </div>
-                <div class="day">
-                    <p>23</p>
-                </div>
-                <div class="day">
-                    <p>24</p>
-                </div>
-                <div class="day">
-                    <p>25</p>
-                </div>
-                <div class="day">
-                    <p>26</p>
-                </div>
-                <div class="day">
-                    <p>27</p>
-                </div>
-                <div class="day">
-                    <p>28</p>
-                </div>
-                <div class="day">
-                    <p>29</p>
-                </div>
-                <div class="day">
-                    <p>30</p>
-                </div>
-                <div class="day">
-                    <p>31</p>
-                </div>
+        </div>
+        <div id="dayNums" class="transition"></div>
+        <!-- Add New Event Modal -->
+        <div class="new-event-bg"></div>
+        <div class="new-event">
+            <h2>Add a new Event</h2>
+            <div>
+                <label for="title">Title:</label>
+                <input id="title" type="text" name="title" placeholder="Enter title" required>
+            </div>
+            <div>
+                <label for="eventType">Event type:</label>
+                <select name="type" id="eventType" required>
+                    <option value="work">Work</option>
+                    <option value="study">Study</option>
+                    <option value="free-time">Free time</option>
+                    <option value="family">Family</option>
+                    <option value="shopping">Shopping</option>
+                    <option value="holiday">Holiday</option>
+                </select>
+            </div>
+            <div>
+                <label for="start-date">Start Date:</label>
+                <input type="date" name="start-date" id="start-date" required>
+            </div>
+            <div>
+                <label for="end-date">End Date:</label>
+                <input type="date" name="end-date" id="end-date">
+            </div>
+            <div>
+                <label for="location">Location:</label>
+                <input type="text" name="location" id="location" placeholder="Enter location" required>
+            </div>
+            <div>
+                <label for="description">Description:</label>
+                <textarea name="description" id="description" cols="20" rows="5" placeholder="Enter description"
+                    required></textarea>
+            </div>
+            <div>
+                <label for="attendees">Attendees:</label>
+                <input type="text" name="attendees" id="attendees" placeholder="Enter attendees (optional)">
+            </div>
+            <div>
+                <button>Add Event</button>
             </div>
         </div>
     </div>
-
+    <script src="app.js"></script>
+    <script src="http://wzrd.in/standalone/uuid%2Fv1@latest"></script>
 </body>
 
 </html>

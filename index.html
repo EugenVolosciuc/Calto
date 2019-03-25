@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Document</title>
+    <title>Calendar App</title>
 </head>
 
 <body>
@@ -18,8 +18,8 @@
             <h2><span id="month"></span> <span id="year"></span></h2>
         </header>
         <nav id="navigation">
-            <span>
-                <button><a id="daily" href="#">Today</a></button>
+            <span id="todayBtn">
+                <button><a href="#">Today</a></button>
             </span>
             <span>
                 <!-- <a href="#"><i class="fas fa-angle-double-left fa-2x"></i></a> -->
@@ -32,65 +32,49 @@
             </span>
         </nav>
         <!-- Calendar -->
-        <div id="calendar">
-            <div id="daysOfMonth">
-                <h3>Monday</h3>
-                <h3>Tuesday</h3>
-                <h3>Wednesday</h3>
-                <h3>Thursday</h3>
-                <h3>Friday</h3>
-                <h3>Saturday</h3>
-                <h3>Sunday</h3>
-            </div>
+        <div id="daysOfMonth">
+            <h3>Monday</h3>
+            <h3>Tuesday</h3>
+            <h3>Wednesday</h3>
+            <h3>Thursday</h3>
+            <h3>Friday</h3>
+            <h3>Saturday</h3>
+            <h3>Sunday</h3>
         </div>
         <div id="dayNums" class="transition"></div>
         <!-- Add New Event Modal -->
         <div class="new-event-bg"></div>
-        <div class="new-event">
-            <h2>Add a new Event</h2>
-            <div>
-                <label for="title">Title:</label>
-                <input id="title" type="text" name="title" placeholder="Enter title" required>
-            </div>
-            <div>
-                <label for="eventType">Event type:</label>
-                <select name="type" id="eventType" required>
-                    <option value="work">Work</option>
-                    <option value="study">Study</option>
-                    <option value="free-time">Free time</option>
-                    <option value="family">Family</option>
-                    <option value="shopping">Shopping</option>
-                    <option value="holiday">Holiday</option>
-                </select>
-            </div>
-            <div>
-                <label for="start-date">Start Date:</label>
-                <input type="date" name="start-date" id="start-date" required>
-            </div>
-            <div>
-                <label for="end-date">End Date:</label>
-                <input type="date" name="end-date" id="end-date">
-            </div>
-            <div>
-                <label for="location">Location:</label>
-                <input type="text" name="location" id="location" placeholder="Enter location" required>
-            </div>
-            <div>
-                <label for="description">Description:</label>
-                <textarea name="description" id="description" cols="20" rows="5" placeholder="Enter description"
-                    required></textarea>
-            </div>
-            <div>
-                <label for="attendees">Attendees:</label>
-                <input type="text" name="attendees" id="attendees" placeholder="Enter attendees (optional)">
-            </div>
-            <div>
-                <button>Add Event</button>
-            </div>
+        <form class="new-event">
+            <h2>Add a new Event</h2><span class="close">&times;</span>
+            <label for="title">Title:</label>
+            <input class="input" id="title" type="text" name="title" required>
+            <label for="eventType">Event type:</label>
+            <select class="input" name="type" id="eventType" required>
+                <option value="work">Work</option>
+                <option value="study">Study</option>
+                <option value="free-time">Free time</option>
+                <option value="family">Family</option>
+                <option value="shopping">Shopping</option>
+                <option value="holiday">Holiday</option>
+            </select>
+            <label for="startDate">Start Date:</label>
+            <input class="input" type="date" name="start-date" id="startDate" required>
+            <label for="endDate">End Date:</label>
+            <input class="input" type="date" name="end-date" id="endDate">
+            <label for="location">Location:</label>
+            <input class="input" type="text" name="location" id="location">
+            <label for="description">Description:</label>
+            <textarea class="input" name="description" id="description" cols="20" rows="5"></textarea>
+            <label for="attendees">Attendees:</label>
+            <input class="input" type="text" name="attendees" id="attendees">
+            <button type="submit" id="createEvent">Add Event</button>
+        </form>
+        <div id="eventSuccess" class="toggle-content">
+            <h3>Event succesfully added</h3>
         </div>
     </div>
+    <script src="uuidv4.js"></script>
     <script src="app.js"></script>
-    <script src="http://wzrd.in/standalone/uuid%2Fv1@latest"></script>
 </body>
 
 </html>

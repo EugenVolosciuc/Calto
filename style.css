@@ -2,6 +2,7 @@
 :root {
     --background1: #D6A4A4;
     --background2: #DAE2F8;
+    --background3: #f7f3e3;
     --text-color: #333;
 }
 
@@ -47,13 +48,28 @@ a {
     margin: 0 7px;
 }
 
+#navigation i:hover {
+    color: var(--background2);
+    transition: all 0.2s ease-in-out 0s;
+}
+
 button {
     width: 120px;
     height: 40px;
     border-radius: 5px;
     font-size: 0.9rem;
     align-self: center;
+    cursor: pointer;
+    outline: transparent;
+    border-style: none;
+    transition: all 0.2s ease-in-out 0s;
+    background: var(--background2)
 }
+
+button:hover {
+    background: var(--background3);
+}
+
 
 /* CALENDAR */
 #daysOfMonth {
@@ -87,16 +103,52 @@ button {
     transition: all 0.2s ease-in-out 0s;
     opacity: 0;
     visibility: hidden;
-    z-index: 3;
-    background-color: #f7f3e3;
+    background-color: var(--background3);
     border-radius: 10px;
     width: 30%;
     height: 60%;
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(7, 1fr), 2fr, 2fr;
+    grid-template-areas: 
+        "h2 h2"
+        "label input"
+        "label select"
+        "label input"
+        "label input"
+        "label input"
+        "label textarea"
+        "label input"
+        "button button";
     align-items: center;
-    padding: 10px 0;
+    /* grid-row-gap: 5px; */
+    padding: 20px;
+    /* margin: 10px; */
+}
+
+.new-event h2 {
+    margin: 0 0 10px 0;
+}
+
+.new-event .close {
+    position: fixed;
+    top: 11px;
+    right: 20px;
+    font-size: 2.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out 0s;    
+}
+
+.new-event .close:hover {
+    color: var(--background1);
+}
+
+.new-event button {
+    justify-self: center;
+    margin: 10px 0 0 0;
+}
+
+.new-event button:hover {
+    background-color: var(--background1);
 }
 
 .new-event-bg {
@@ -125,6 +177,37 @@ button {
     visibility: visible;
 }
 
-.new-event h2 {
-    margin: 0;
+#eventSuccess {
+    position: fixed;
+    top: 4%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 20px;
+    background-color: var(--background2);
+    border-radius: 10px;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.successAnimation {
+    animation-name: success;
+    animation-duration: 2.5s;
+    animation-fill-mode: forwards; 
+}
+
+@keyframes success {
+    1% {
+        opacity: 0;
+        visibility: visible;
+    }
+    45% {
+        opacity: 1;
+    }
+    55% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
 }

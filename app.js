@@ -1,4 +1,9 @@
+// Get events from localStorage
 const events = getSavedEvents();
+
+// Set min date to date pickers
+setMinDate(inputsNew[2], inputsNew[3]);
+setMinDate(inputsEdit[2], inputsEdit[3]);
 
 // Create cells in calendar
 for (let i = 0; i < 42; i++) {
@@ -10,7 +15,6 @@ for (let i = 0; i < 42; i++) {
 // Initial render
 renderHeading(currentDate);
 renderCalendar(currentDate, events);
-
 
 // Navigation
 todayBtn.addEventListener("click", function () {
@@ -51,6 +55,13 @@ class Event {
     } // DOESN'T WORK!!!
 }
 
+let clickedEvent = {};
+
+////////////
+// NEW EVENT
+////////////
+
+// Open new event modal
 newEventBtn.addEventListener("click", () => {
     newEventModal.classList.add("shown");
     newEventBg.classList.add("shown-bg");
@@ -58,16 +69,6 @@ newEventBtn.addEventListener("click", () => {
         input.value = "";
     })
 });
-
-closeBtnNew.addEventListener("click", () => {
-    newEventModal.classList.remove("shown");
-    newEventBg.classList.remove("shown-bg");
-})
-
-closeBtnView.addEventListener("click", () => {
-    viewEvent.classList.remove("shown");
-    newEventBg.classList.remove("shown-bg");
-})
 
 // Create new event
 createEvent.addEventListener("click", function () {
@@ -79,58 +80,125 @@ createEvent.addEventListener("click", function () {
         events.push(newEvent);
         newEventModal.classList.remove("shown");
         newEventBg.classList.remove("shown-bg");
-        eventSuccessBubble.classList.toggle("successAnimation");
+        eventSuccessMessage.textContent = "Event Created Successfully";
+        eventSuccess.classList.toggle("successAnimation");
         window.setTimeout(function () {
-            eventSuccessBubble.classList.toggle("successAnimation");
+            eventSuccess.classList.toggle("successAnimation");
         }, 2500);
         saveEvents(events);
         postEvent(newEvent);
     }
-    newEventModal.addEventListener("submit", function (event) {
-        event.preventDefault();
+    newEventModal.addEventListener("submit", function (e) {
+        e.preventDefault();
     })
 })
 
+// Close new event modal
+closeBtnNew.addEventListener("click", () => {
+    newEventModal.classList.remove("shown");
+    newEventBg.classList.remove("shown-bg");
+})
+
+/////////////
+// VIEW EVENT
+/////////////
+
+// View event details
 document.addEventListener("click", function (e) {
     if (e.target.classList.contains("event")) {
-        const hash = e.target.hash.substr(1);
-        const clickedEvent = events.find(function (event) {
-            return event.id === hash;
-        })
+        clickedEvent = findClickedEvent(e);
         // Get the keys and properties lists of the clickedEvent object
-        const keys = Object.keys(clickedEvent);
+        const keys = getKeys(clickedEvent);
         keys.splice(0, 1);
-        keys.splice(keys.length - 1, 1);
-        for (let i = 0; i < keys.length; i++) {
-            if (keys[i] === "startDate") {
-                keys.splice(i, 1, "Start Date")
-            } else if (keys[i] === "endDate") {
-                keys.splice(i, 1, "End Date")
-            }
-        }
-        const properties = [];
-        for (let property in clickedEvent) {
-            properties.push(clickedEvent[property]);
-        }
-        for (let i = 0; i < viewFields.length; i++) {
-            // for every field, change it's contents to each specific key and property of the event
-            // If event property if empty, write "Not specified"
-            if (properties[i] === "" || properties[i][0] === "") {
-                viewFields[i].textContent = "Not specified";
-                // Edit content for attendees (array)
-            } else if (Array.isArray(properties[i])) {
-                let attendees = '';
-                for (let d = 0; d < properties[i].length; d++) {
-                    attendees += properties[i][d] + ', ';
-                }
-                viewFields[i].textContent = attendees.substring(0, attendees.length - 2);
-                // Edit content for everything else
-            } else {
-                keyFields[i].textContent = keys[i];
-                viewFields[i].textContent = properties[i].replace(/,/g, ', ');
-            }
-        }
-        viewEvent.classList.add("shown");
+        const properties = getProps(clickedEvent);
+        changeFieldContent(keys, properties);
+        viewEventModal.classList.add("shown");
         newEventBg.classList.add("shown-bg");
+        editEventBtnLink.setAttribute("href", `index.html#${clickedEvent.id}`);
+        yesDeleteBtnLink.setAttribute("href", `index.html#${clickedEvent.id}`);
+        properties.splice(properties.length - 1, 1);
+        for (let i = 0; i < inputsEdit.length; i++) {
+            inputsEdit[i].value = properties[i];
+        }
     }
 });
+
+// Close view event modal
+closeBtnView.addEventListener("click", () => {
+    viewEventModal.classList.remove("shown");
+    newEventBg.classList.remove("shown-bg");
+})
+
+/////////////
+// EDIT EVENT
+/////////////
+
+// Open edit event modal
+editEventIcon.addEventListener("click", () => {
+    viewEventModal.classList.remove("shown");
+    editEventModal.classList.add("shown");
+
+})
+
+// Post edited event
+editEventBtn.addEventListener("click", function (e) {
+    if (!(inputsEdit[0].value === "") && !(inputsEdit[2].value === "")) {
+        clickedEvent.title = inputsEdit[0].value;
+        clickedEvent.type = inputsEdit[1].value;
+        clickedEvent.startDate = inputsEdit[2].value;
+        clickedEvent.endDate = inputsEdit[3].value;
+        clickedEvent.location = inputsEdit[4].value;
+        clickedEvent.description = inputsEdit[5].value;
+        clickedEvent.attendees = inputsEdit[6].value;
+        saveEvents(events);
+        renderHeading(dateChange);
+        editEventModal.classList.remove("shown");
+        newEventBg.classList.remove("shown-bg");
+        eventSuccessMessage.textContent = "Event Edited Successfully"
+        eventSuccess.classList.toggle("successAnimation");
+        window.setTimeout(function () {
+            eventSuccess.classList.toggle("successAnimation");
+        }, 4000);
+        renderCalendar(dateChange, events);
+    }
+    editEventModal.addEventListener("submit", function (e) {
+        e.preventDefault();
+    })
+})
+
+// Close edit event modal
+closeBtnEdit.addEventListener("click", () => {
+    editEventModal.classList.remove("shown");
+    viewEventModal.classList.add("shown");
+})
+
+///////////////
+// DELETE EVENT
+///////////////
+
+// Open delete event modal
+deleteIcon.addEventListener("click", (e) => {
+    deleteMessage.textContent = `Are you sure you want to delete this event: "${clickedEvent.title}"?`
+    editEventModal.classList.remove("shown");
+    deleteEventModal.classList.add("shown");
+})
+
+// Delete event
+yesDeleteBtn.addEventListener("click", (e) => {
+    deleteEvent(clickedEvent.id);
+    saveEvents(events);
+    eventSuccessMessage.textContent = "Event Deleted Successfully"
+    eventSuccess.classList.toggle("successAnimation");
+    window.setTimeout(function () {
+        eventSuccess.classList.toggle("successAnimation");
+    }, 2500);
+    renderCalendar(dateChange, events);
+    deleteEventModal.classList.remove("shown");
+    newEventBg.classList.remove("shown-bg");
+})
+
+// Close delete event modal
+noDeleteBtn.addEventListener("click", (e) => {
+    deleteEventModal.classList.remove("shown");
+    editEventModal.classList.add("shown");
+})

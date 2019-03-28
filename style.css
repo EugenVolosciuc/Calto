@@ -44,6 +44,11 @@ a {
     text-decoration: none;
 }
 
+textarea, #startDate, #endDate {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.8rem;
+}
+
 /* NAVIGATION */
 #navigation {
     display: grid;
@@ -65,7 +70,7 @@ button {
     width: 120px;
     height: 40px;
     border-radius: 5px;
-    font-size: 0.9rem;
+    font-size: 1rem;
     align-self: center;
     cursor: pointer;
     outline: transparent;
@@ -127,6 +132,7 @@ button:hover {
     border-radius: 15px; 
     width: 90%;
     cursor: pointer;
+    padding: 0 5px;
 }
 
 .day:hover a {
@@ -161,7 +167,7 @@ button:hover {
 }
 
 /* ADD EVENT MODAL */
-.new-event {
+.new-event, .edit-event {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -185,35 +191,36 @@ button:hover {
         "label input"
         "button button";
     align-items: center;
-    /* grid-row-gap: 5px; */
     padding: 20px;
-    /* margin: 10px; */
 }
 
-.new-event h2 {
+.new-event h2, .edit-event h2 {
     margin: 0 0 10px 0;
 }
 
-.new-event .close-new, .view-event .close-view {
+.new-event .close-new, .view-event .view-nav, .edit-event .edit-nav {
     position: fixed;
-    top: 1vh;
+    top: 3vh;
     right: 1vw;
-    font-size: 2.2rem;
-    font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease-in-out 0s;    
 }
 
-.new-event .close-new:hover, .view-event .close-view:hover {
+.fa-times {
+    display: block;
+    transform: scale(1.6);
+}
+
+.new-event .close-new:hover, .view-event .close-view:hover, .view-event .fa-edit:hover, .edit-event .close-edit:hover, .edit-event .delete-event-icon:hover {
     color: var(--background1);
 }
 
-.new-event button {
+.new-event button, .close-edit button, .edit-event button {
     justify-self: center;
     margin: 10px 0 0 0;
 }
 
-.new-event button:hover {
+.new-event button:hover, .close-edit button:hover, .edit-event button:hover {
     background-color: var(--background1);
 }
 
@@ -229,7 +236,7 @@ button:hover {
     transition: all 0.2s ease-in-out 0s;
 }
 
-#eventSuccess {
+#eventSuccess{
     position: fixed;
     top: 4%;
     left: 50%;
@@ -277,13 +284,22 @@ button:hover {
     min-width: 25%;
     background-color: var(--background3);
     border-radius: 10px;
-    /* grid-row-gap: 5px; */
-    padding: 20px;
-    /* margin: 10px; */
+    padding: 20px 35px;
+}
+
+.view-event .fa-edit {
+    margin: 15px 0 0 5px;
+    transform: scale(1.4);
+}
+
+.view-event .close-view {
+    text-align: center;
+    display: block;
 }
 
 .view-event h2 {
-    margin: 10px 0;
+    width: 95%;
+    margin: 10px auto;
 }
 
 .view-event h3 {
@@ -297,6 +313,59 @@ button:hover {
 
 .view-event-type {
     text-transform: capitalize;
+}
+
+/* EDIT EVENT MODAL */
+
+.edit-event {
+    padding: 20px 35px;
+}
+
+.edit-event a {
+    display: block;
+}
+
+
+/* DELETE EVENT MODAL */
+
+.delete-event {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background3);
+    transition: all 0.2s ease-in-out 0s;
+    opacity: 0;
+    visibility: hidden;
+    border-radius: 10px;
+    padding: 20px 35px 0 35px;
+    width: 50%;
+    height: 15%;
+}
+
+
+.delete-event-icon {
+    margin: 15px 0 0 0;
+    display: block;
+    transform: scale(1.4);
+}
+
+.delete-event #yesDelete {
+    background-color: var(--background2);
+}
+
+.delete-event #yesDelete:hover {
+    background-color: var(--background1);
+}
+
+.delete-event #noDelete {
+    background-color: var(--background2);
+}
+
+
+.delete-event a {
+    display: block;
 }
 
 /* --------------- */

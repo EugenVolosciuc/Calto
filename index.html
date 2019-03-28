@@ -24,10 +24,8 @@
                 <button><a href="#">Today</a></button>
             </span>
             <span>
-                <!-- <a href="#"><i class="fas fa-angle-double-left fa-2x"></i></a> -->
                 <a href="#"><i class="fas fa-angle-left fa-2x previous"></i></a>
                 <a href="#"><i class="fas fa-angle-right fa-2x next"></i></a>
-                <!-- <a href="#"><i class="fas fa-angle-double-right fa-2x"></i></a> -->
             </span>
             <span>
                 <button id="addNew"><a href="#">Add New Event</a></button>
@@ -49,11 +47,12 @@
         <!-- /////////////////// -->
         <div class="new-event-bg"></div>
         <form class="new-event">
-            <h2>Add a new Event</h2><span class="close-new">&times;</span>
+            <h2>Add a new Event</h2>
+            <i class="fas fa-times close-new"></i>
             <label for="title">Title:</label>
-            <input class="input" id="title" type="text" name="title" required>
+            <input class="input-new" id="title" type="text" name="title" required>
             <label for="eventType">Event type:</label>
-            <select class="input" name="type" id="eventType" required>
+            <select class="input-new" name="type" id="eventType" required>
                 <option value="work">Work</option>
                 <option value="study">Study</option>
                 <option value="free-time">Free time</option>
@@ -62,25 +61,26 @@
                 <option value="holiday">Holiday</option>
             </select>
             <label for="startDate">Start Date:</label>
-            <input class="input" type="date" name="start-date" id="startDate" required>
+            <input class="input-new" type="date" name="start-date" id="startDate" required>
             <label for="endDate">End Date:</label>
-            <input class="input" type="date" name="end-date" id="endDate">
+            <input class="input-new" type="date" name="end-date" id="endDate">
             <label for="location">Location:</label>
-            <input class="input" type="text" name="location" id="location">
+            <input class="input-new" type="text" name="location" id="location">
             <label for="description">Description:</label>
-            <textarea class="input" name="description" id="description" cols="20" rows="5"></textarea>
+            <textarea class="input-new" name="description" id="description" cols="20" rows="5"></textarea>
             <label for="attendees">Attendees:</label>
-            <input class="input" type="text" name="attendees" id="attendees">
+            <input class="input-new" type="text" name="attendees" id="attendees">
             <button type="submit" id="createEvent">Add Event</button>
         </form>
-        <div id="eventSuccess" class="toggle-content">
-            <h3>Event succesfully added</h3>
-        </div>
         <!-- //////////////// -->
         <!-- View Event Modal -->
         <!-- //////////////// -->
         <div class="view-event">
-            <h2 class="view view-event-title"></h2><span class="close-view">&times;</span>
+            <h2 class="view view-event-title"></h2>
+            <div class="view-nav">
+                <i class="fas fa-times close-view"></i>
+                <a><i class="fas fa-edit"></i></a>
+            </div>
             <h3 class="view-key"></h3>
             <p class="view view-event-type"></p>
             <h3 class="view-key"></h3>
@@ -93,6 +93,51 @@
             <p class="view"></p>
             <h3 class="view-key"></h3>
             <p class="view"></p>
+        </div>
+        <!-- //////////////// -->
+        <!-- Edit Event Modal -->
+        <!-- //////////////// -->
+        <form class="edit-event">
+            <h2>Edit event</h2>
+            <div class="edit-nav">
+                <i class="fas fa-times close-edit"></i>
+                <i class="far fa-trash-alt delete-event-icon"></i>
+            </div>
+            <label for="title">Title:</label>
+            <input class="input-edit" id="title" type="text" name="title" required>
+            <label for="eventType">Event type:</label>
+            <select class="input-edit" name="type" id="eventType" required>
+                <option value="work">Work</option>
+                <option value="study">Study</option>
+                <option value="free-time">Free time</option>
+                <option value="family">Family</option>
+                <option value="shopping">Shopping</option>
+                <option value="holiday">Holiday</option>
+            </select>
+            <label for="startDate">Start Date:</label>
+            <input class="input-edit" type="date" name="start-date" id="startDate" required>
+            <label for="endDate">End Date:</label>
+            <input class="input-edit" type="date" name="end-date" id="endDate">
+            <label for="location">Location:</label>
+            <input class="input-edit" type="text" name="location" id="location">
+            <label for="description">Description:</label>
+            <textarea class="input-edit" name="description" id="description" cols="20" rows="5"></textarea>
+            <label for="attendees">Attendees:</label>
+            <input class="input-edit" type="text" name="attendees" id="attendees">
+            <button id="editEvent"><a href="#" type="submit" id="editEventLink">Update Event</a></button>
+        </form>
+        <!-- ////////////////// -->
+        <!-- DELETE EVENT MODAL -->
+        <!-- ////////////////// -->
+        <div class="delete-event">
+            <p class="delete-message"></p>
+            <div>
+                <button id="yesDelete"><a href="#" id="yesDeleteLink">Yes</a></button>
+                <button id="noDelete">No</button>
+            </div>
+        </div>
+        <div id="eventSuccess">
+            <h3 id="eventSuccessMessage"></h3>
         </div>
     </div>
     <script src="uuidv4.js"></script>

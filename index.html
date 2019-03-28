@@ -13,7 +13,9 @@
 
 <body>
     <div class="container">
+        <!-- ////////// -->
         <!-- Navigation -->
+        <!-- ////////// -->
         <header>
             <h2><span id="month"></span> <span id="year"></span></h2>
         </header>
@@ -42,10 +44,12 @@
             <h3>Sunday</h3>
         </div>
         <div id="dayNums" class="transition"></div>
+        <!-- /////////////////// -->
         <!-- Add New Event Modal -->
+        <!-- /////////////////// -->
         <div class="new-event-bg"></div>
         <form class="new-event">
-            <h2>Add a new Event</h2><span class="close">&times;</span>
+            <h2>Add a new Event</h2><span class="close-new">&times;</span>
             <label for="title">Title:</label>
             <input class="input" id="title" type="text" name="title" required>
             <label for="eventType">Event type:</label>
@@ -72,8 +76,27 @@
         <div id="eventSuccess" class="toggle-content">
             <h3>Event succesfully added</h3>
         </div>
+        <!-- //////////////// -->
+        <!-- View Event Modal -->
+        <!-- //////////////// -->
+        <div class="view-event">
+            <h2 class="view view-event-title"></h2><span class="close-view">&times;</span>
+            <h3 class="view-key"></h3>
+            <p class="view view-event-type"></p>
+            <h3 class="view-key"></h3>
+            <p class="view"></p>
+            <h3 class="view-key"></h3>
+            <p class="view"></p>
+            <h3 class="view-key"></h3>
+            <p class="view "></p>
+            <h3 class="view-key"></h3>
+            <p class="view"></p>
+            <h3 class="view-key"></h3>
+            <p class="view"></p>
+        </div>
     </div>
     <script src="uuidv4.js"></script>
+    <script src="app-functions.js"></script>
     <script src="app.js"></script>
 </body>
 

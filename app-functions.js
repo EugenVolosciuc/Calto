@@ -68,6 +68,42 @@ getSavedEvents = () => {
     }
 }
 
+restoreEmptyCells = () => {
+    for (let i = 0; i < 6; i++) {
+        debugger
+        if (!(calendar.children[i].innerHTML === "")) {
+            calendar.children[i].classList.remove("day-no-hover");
+            calendar.children[i].classList.add("day");
+            calendar.children[i].classList.add("day-border");
+        }
+    }
+    for (let i = 28; i < 42; i++) {
+        if (!(calendar.children[i].innerHTML === "")) {
+            calendar.children[i].classList.remove("day-no-hover");
+            calendar.children[i].classList.add("day");
+            calendar.children[i].classList.add("day-border");
+        }
+    }
+}
+
+deleteEmptyCells = () => {
+    for (let i = 0; i < 6; i++) {
+        debugger
+        if (calendar.children[i].innerHTML === "") {
+            calendar.children[i].classList.remove("day");
+            calendar.children[i].classList.add("day-no-hover");
+            calendar.children[i].classList.remove("day-border");
+        }
+    }
+    for (let i = 28; i < 42; i++) {
+        if (calendar.children[i].innerHTML === "") {
+            calendar.children[i].classList.remove("day");
+            calendar.children[i].classList.add("day-no-hover");
+            calendar.children[i].classList.remove("day-border");
+        }
+    }
+}
+
 // Render calendar in grid
 renderCalendar = (date, events) => {
     let firstDay = new Date(date.getFullYear(), date.getMonth(), 1).toLocaleString('en-us', { weekday: 'long' });
@@ -83,17 +119,11 @@ renderCalendar = (date, events) => {
             break;
         }
     }
+    restoreEmptyCells();
+    deleteEmptyCells();
     updateCalendarEvents(currentMonthEvents(events));
 }
 
-// deleteEmptyCells = () => {
-//     // from the 28 to the last cell in the calendar, check if the cell is empty. if it's empty, delete cell.
-//     for (let i = 28; i <= 42; i++) {
-//         if (calendar.children[i].innerHTML === "") {
-//             calendar.removeChild(calendar.children[i]);
-//         }
-//     }
-// }
 
 
 // Set min date to startDate and endDate picker
@@ -118,7 +148,7 @@ function updateCalendarEvents(events) {
 
 function createEventInDOM(event) {
     // Check every day of dateChange month so that dateChange's date equals one the day written in the calendar
-    for (let i = 1; i <= calendar.children.length; i++) {
+    for (let i = 0; i < calendar.children.length; i++) {
         if (new Date(event.startDate).getDate() === parseInt(calendar.children[i].textContent, 10) && new Date(event.startDate).getFullYear() === dateChange.getFullYear()) {
             const eventCell = document.createElement("a");
             switch (event.type) {
@@ -145,7 +175,6 @@ function createEventInDOM(event) {
             eventCell.setAttribute("href", `index.html#${event.id}`);
             eventCell.classList.add("event");
             calendar.children[i].appendChild(eventCell);
-            break;
         }
     }
 }

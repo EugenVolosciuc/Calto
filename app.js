@@ -9,6 +9,7 @@ setMinDate(inputsEdit[2], inputsEdit[3]);
 for (let i = 0; i < 42; i++) {
     const cell = document.createElement("div");
     cell.classList.add("day");
+    cell.classList.add("day-border")
     calendar.appendChild(cell);
 }
 

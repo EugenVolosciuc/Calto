@@ -118,7 +118,8 @@ button:hover {
     transition: all 0.2s ease-in-out 0s;
     background-color: var(--background2);
     display: inline-block;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .day-no-hover {
@@ -133,21 +134,41 @@ button:hover {
     margin: 0 0 5px 5px;
 }
 
-.day a {
+.event {
     display: inline-block;
     font-size: 0.8rem;
-    margin: 0 auto 10px auto;
-    border-radius: 15px; 
-    width: 90%;
     cursor: pointer;
-    padding: 0 5px;
+    padding: 5px 0;
 }
 
 .day:hover a {
     transform: scale(0.7);
     transition: all 0.2s ease-in-out 0s;
-    padding: 5px 0;
-    margin-bottom: 0;
+    border-radius: 15px; 
+}
+
+.day .event-one-day {
+    margin: 0 auto 10px auto;
+    border-radius: 15px; 
+    width: 90%;
+}
+
+.day .event-start {
+    margin: 0 0 10px 0;
+    border-radius: 15px 0 0 15px; 
+    width: 100%;
+}
+
+.day .event-continue {
+    margin: 0 0 10px 0;
+    border-radius: 0; 
+    width: 100%;
+}
+
+.day .event-end {
+    margin: 0 0 10px 0;
+    border-radius: 0 15px 15px 0; 
+    width: 100%;
 }
 
 .work {
@@ -333,7 +354,6 @@ button:hover {
     display: block;
 }
 
-
 /* DELETE EVENT MODAL */
 
 .delete-event {
@@ -370,7 +390,6 @@ button:hover {
 .delete-event #noDelete {
     background-color: var(--background2);
 }
-
 
 .delete-event a {
     display: block;

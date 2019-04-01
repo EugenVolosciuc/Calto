@@ -1,10 +1,6 @@
 // Get events from localStorage
 const events = getSavedEvents();
 
-// Set min date to date pickers
-setMinDate(inputsNew[2], inputsNew[3]);
-setMinDate(inputsEdit[2], inputsEdit[3]);
-
 // Create cells in calendar
 for (let i = 0; i < 42; i++) {
     const cell = document.createElement("div");
@@ -12,6 +8,10 @@ for (let i = 0; i < 42; i++) {
     cell.classList.add("day-border")
     calendar.appendChild(cell);
 }
+
+// Set min date to date pickers
+setMinDate(inputsNew[2], inputsNew[3]);
+setMinDate(inputsEdit[2], inputsEdit[3]);
 
 // Initial render
 renderHeading(currentDate);
@@ -26,9 +26,9 @@ todayBtn.addEventListener("click", function () {
 
 next.addEventListener("click", function () {
     dateChange.setMonth(dateChange.getMonth() + 1);
+    debugger
     renderHeading(dateChange);
     renderCalendar(dateChange, events);
-    // deleteEmptyCells();
 })
 
 previous.addEventListener("click", function () {
@@ -85,7 +85,7 @@ createEvent.addEventListener("click", function () {
         eventSuccess.classList.toggle("successAnimation");
         window.setTimeout(function () {
             eventSuccess.classList.toggle("successAnimation");
-        }, 2500);
+        }, 4000);
         saveEvents(events);
         postEvent(newEvent);
     }
@@ -138,7 +138,6 @@ closeBtnView.addEventListener("click", () => {
 editEventIcon.addEventListener("click", () => {
     viewEventModal.classList.remove("shown");
     editEventModal.classList.add("shown");
-
 })
 
 // Post edited event
@@ -192,7 +191,7 @@ yesDeleteBtn.addEventListener("click", (e) => {
     eventSuccess.classList.toggle("successAnimation");
     window.setTimeout(function () {
         eventSuccess.classList.toggle("successAnimation");
-    }, 2500);
+    }, 4000);
     renderCalendar(dateChange, events);
     deleteEventModal.classList.remove("shown");
     newEventBg.classList.remove("shown-bg");

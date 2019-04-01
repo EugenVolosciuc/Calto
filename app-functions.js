@@ -1,5 +1,3 @@
-// Selectors
-
 // Calendar
 const month = document.querySelector("#month");
 const year = document.querySelector("#year");
@@ -41,9 +39,9 @@ const eventSuccessMessage = document.querySelector("#eventSuccessMessage");
 
 const currentDate = new Date(); // for current date (ex. return to today)
 let currentDateString = new Date(currentDate.getTime() - (currentDate.getTimezoneOffset() * 60000)).toISOString().split("T")[0]; // currentDate in YYYYMMDD string format
-let dateChange = new Date(); // for navigation through calendar
+let dateChange = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1); // for navigation through calendar
 
-// Render month and year in heading function
+// Render month and year in heading
 renderHeading = (date) => {
     year.textContent = date.getFullYear();
     month.textContent = date.toLocaleString('en-us', { month: 'long' });
@@ -54,12 +52,13 @@ saveEvents = (events) => {
 }
 
 getSavedEvents = () => {
+
+    const eventsJSON = localStorage.getItem("events");
+
     // // Check events from localStorage if intact
     // for(let i = 0; i < JSON.parse(localStorage.getItem("events")).length; i++) {
 
     // }
-
-    const eventsJSON = localStorage.getItem("events");
 
     try {
         return eventsJSON ? JSON.parse(eventsJSON) : [];
@@ -70,7 +69,6 @@ getSavedEvents = () => {
 
 restoreEmptyCells = () => {
     for (let i = 0; i < 6; i++) {
-        debugger
         if (!(calendar.children[i].innerHTML === "")) {
             calendar.children[i].classList.remove("day-no-hover");
             calendar.children[i].classList.add("day");
@@ -88,7 +86,6 @@ restoreEmptyCells = () => {
 
 deleteEmptyCells = () => {
     for (let i = 0; i < 6; i++) {
-        debugger
         if (calendar.children[i].innerHTML === "") {
             calendar.children[i].classList.remove("day");
             calendar.children[i].classList.add("day-no-hover");
@@ -124,8 +121,6 @@ renderCalendar = (date, events) => {
     updateCalendarEvents(currentMonthEvents(events));
 }
 
-
-
 // Set min date to startDate and endDate picker
 function setMinDate(startDate, endDate) {
     startDate.setAttribute("min", currentDateString);
@@ -134,47 +129,117 @@ function setMinDate(startDate, endDate) {
     })
 }
 
-// Filter events of month on display (for speed sake)
+// Filter events of month on display
 function currentMonthEvents(events) {
     return events.filter(event => new Date(event.startDate).getMonth() === dateChange.getMonth());
 }
 
-// Updates the events of the month on the display
 function updateCalendarEvents(events) {
     for (let i = 0; i < events.length; i++) {
         createEventInDOM(events[i]);
     }
 }
 
+function checkEventType(event, cell) {
+    switch (event.type) {
+        case "work":
+            cell.classList.add("work");
+            break;
+        case "study":
+            cell.classList.add("study");
+            break;
+        case "free-time":
+            cell.classList.add("free-time");
+            break;
+        case "family":
+            cell.classList.add("family");
+            break;
+        case "shopping":
+            cell.classList.add("shopping");
+            break;
+        case "holiday":
+            cell.classList.add("holiday");
+            break;
+    }
+}
+
+function createSingleEvent(event, iterator) {
+    const eventCell = document.createElement("a");
+    checkEventType(event, eventCell);
+    eventCell.textContent = event.title;
+    eventCell.setAttribute("href", `index.html#${event.id}`);
+    eventCell.classList.add("event");
+    eventCell.classList.add("event-one-day");
+    calendar.children[iterator].appendChild(eventCell);
+}
+
+function createStartEvent(event, iterator, firstEvent) {
+    const eventCell = document.createElement("a");
+    checkEventType(event, eventCell);
+    eventCell.textContent = event.title;
+    eventCell.setAttribute("href", `index.html#${event.id}`);
+    eventCell.classList.add("event");
+    eventCell.classList.add("event-start");
+    calendar.children[iterator].insertBefore(eventCell, firstEvent);
+}
+
+function createContinueEvent(event, iterator, firstEvent) {
+    const eventCellContinue = document.createElement("a");
+    checkEventType(event, eventCellContinue);
+    eventCellContinue.textContent = event.title;
+    eventCellContinue.setAttribute("href", `index.html#${event.id}`);
+    eventCellContinue.classList.add("event");
+    eventCellContinue.classList.add("event-continue");
+    debugger
+    if (!(calendar.children[iterator].firstEvent === null)) {
+        calendar.children[iterator].insertBefore(eventCellContinue, firstEvent);
+    } else {
+        calendar.children[iterator].appendChild(eventCellContinue);
+    }
+}
+
+function createEndEvent(event, iterator, firstEvent) {
+    const eventCellEnd = document.createElement("a");
+    checkEventType(event, eventCellEnd);
+    eventCellEnd.textContent = event.title;
+    eventCellEnd.setAttribute("href", `index.html#${event.id}`);
+    eventCellEnd.classList.add("event");
+    eventCellEnd.classList.add("event-end");
+    if (!(calendar.children[iterator].firstEvent === null)) {
+        calendar.children[iterator].insertBefore(eventCellEnd, firstEvent);
+    } else {
+        calendar.children[iterator].appendChild(eventCellEnd);
+    }
+}
+
 function createEventInDOM(event) {
-    // Check every day of dateChange month so that dateChange's date equals one the day written in the calendar
+    let firstEvent;
+    // Check every day of month so that dateChange's date equals one the day written in the calendar
     for (let i = 0; i < calendar.children.length; i++) {
         if (new Date(event.startDate).getDate() === parseInt(calendar.children[i].textContent, 10) && new Date(event.startDate).getFullYear() === dateChange.getFullYear()) {
-            const eventCell = document.createElement("a");
-            switch (event.type) {
-                case "work":
-                    eventCell.classList.add("work");
-                    break;
-                case "study":
-                    eventCell.classList.add("study");
-                    break;
-                case "free-time":
-                    eventCell.classList.add("free-time");
-                    break;
-                case "family":
-                    eventCell.classList.add("family");
-                    break;
-                case "shopping":
-                    eventCell.classList.add("shopping");
-                    break;
-                case "holiday":
-                    eventCell.classList.add("holiday");
-                    break;
+            // If event takes place only one day, apply specific styling
+            if (event.endDate === "" || new Date(event.startDate).getDate() === new Date(event.endDate).getDate()) {
+                createSingleEvent(event, i);
+                // If it takes place more than one day, apply this styling
+            } else if (new Date(event.endDate).getDate() !== new Date(event.startDate).getDate()) {
+                // For every day of the event
+                firstEvent = calendar.children[i].firstChild.nextSibling;
+                // Check if the day written in the calendar equals the startDate
+                if (parseInt(calendar.children[i].textContent, 10) === new Date(event.startDate).getDate()) {
+                    createStartEvent(event, i, firstEvent);
+                }
+                for (let d = new Date(event.startDate).getDate(); d <= new Date(event.endDate).getDate(); d++) {
+                    firstEvent = calendar.children[d].firstChild.nextSibling;
+                    // Check if the day written in the calendar is between the startEvent and endEvent days 
+                    if ((parseInt(calendar.children[d].textContent, 10) >= new Date(event.startDate).getDate() && (parseInt(calendar.children[d].textContent, 10) < new Date(event.endDate).getDate()) && new Date(event.startDate).getFullYear() === dateChange.getFullYear())) {
+                        createContinueEvent(event, d, firstEvent);
+                    }
+                    // Check if the day written in the calendar equals the end date
+                    else if (new Date(event.endDate).getDate() === parseInt(calendar.children[d].textContent, 10)) {
+                        createEndEvent(event, d, firstEvent);
+                    }
+                }
             }
-            eventCell.textContent = event.title;
-            eventCell.setAttribute("href", `index.html#${event.id}`);
-            eventCell.classList.add("event");
-            calendar.children[i].appendChild(eventCell);
         }
     }
 }

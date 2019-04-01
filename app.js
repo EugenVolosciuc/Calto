@@ -26,7 +26,6 @@ todayBtn.addEventListener("click", function () {
 
 next.addEventListener("click", function () {
     dateChange.setMonth(dateChange.getMonth() + 1);
-    debugger
     renderHeading(dateChange);
     renderCalendar(dateChange, events);
 })

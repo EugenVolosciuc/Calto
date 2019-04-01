@@ -190,7 +190,6 @@ function createContinueEvent(event, iterator, firstEvent) {
     eventCellContinue.setAttribute("href", `index.html#${event.id}`);
     eventCellContinue.classList.add("event");
     eventCellContinue.classList.add("event-continue");
-    debugger
     if (!(calendar.children[iterator].firstEvent === null)) {
         calendar.children[iterator].insertBefore(eventCellContinue, firstEvent);
     } else {
@@ -216,30 +215,28 @@ function createEventInDOM(event) {
     let firstEvent;
     // Check every day of month so that dateChange's date equals one the day written in the calendar
     for (let i = 0; i < calendar.children.length; i++) {
+        if (calendar.children[i].firstChild !== null) {
+            firstEvent = calendar.children[i].firstChild.nextSibling;
+        }
         if (new Date(event.startDate).getDate() === parseInt(calendar.children[i].textContent, 10) && new Date(event.startDate).getFullYear() === dateChange.getFullYear()) {
             // If event takes place only one day, apply specific styling
             if (event.endDate === "" || new Date(event.startDate).getDate() === new Date(event.endDate).getDate()) {
                 createSingleEvent(event, i);
                 // If it takes place more than one day, apply this styling
             } else if (new Date(event.endDate).getDate() !== new Date(event.startDate).getDate()) {
-                // For every day of the event
-                firstEvent = calendar.children[i].firstChild.nextSibling;
                 // Check if the day written in the calendar equals the startDate
                 if (parseInt(calendar.children[i].textContent, 10) === new Date(event.startDate).getDate()) {
                     createStartEvent(event, i, firstEvent);
                 }
-                for (let d = new Date(event.startDate).getDate(); d <= new Date(event.endDate).getDate(); d++) {
-                    firstEvent = calendar.children[d].firstChild.nextSibling;
-                    // Check if the day written in the calendar is between the startEvent and endEvent days 
-                    if ((parseInt(calendar.children[d].textContent, 10) >= new Date(event.startDate).getDate() && (parseInt(calendar.children[d].textContent, 10) < new Date(event.endDate).getDate()) && new Date(event.startDate).getFullYear() === dateChange.getFullYear())) {
-                        createContinueEvent(event, d, firstEvent);
-                    }
-                    // Check if the day written in the calendar equals the end date
-                    else if (new Date(event.endDate).getDate() === parseInt(calendar.children[d].textContent, 10)) {
-                        createEndEvent(event, d, firstEvent);
-                    }
-                }
             }
+        }
+        // Check if the day written in the calendar is between the startEvent and endEvent days 
+        if ((parseInt(calendar.children[i].textContent, 10) > new Date(event.startDate).getDate() && (parseInt(calendar.children[i].textContent, 10) < new Date(event.endDate).getDate()) && new Date(event.startDate).getFullYear() === dateChange.getFullYear())) {
+            createContinueEvent(event, i, firstEvent);
+        }
+        // Check if the day written in the calendar equals the end date
+        if (new Date(event.endDate).getDate() === parseInt(calendar.children[i].textContent, 10)) {
+            createEndEvent(event, i, firstEvent);
         }
     }
 }

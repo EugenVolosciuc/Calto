@@ -52,14 +52,7 @@ saveEvents = (events) => {
 }
 
 getSavedEvents = () => {
-
     const eventsJSON = localStorage.getItem("events");
-
-    // // Check events from localStorage if intact
-    // for(let i = 0; i < JSON.parse(localStorage.getItem("events")).length; i++) {
-
-    // }
-
     try {
         return eventsJSON ? JSON.parse(eventsJSON) : [];
     } catch (e) {
@@ -163,80 +156,108 @@ function checkEventType(event, cell) {
     }
 }
 
+
+function getFirstOneDayEvent(iterator) {
+    const oneDayEvents = Array.from(calendar.children[iterator].children).filter(event => event.classList.value.includes("one-day-event"));
+    return oneDayEvents.pop();
+}
+
 function createSingleEvent(event, iterator) {
     const eventCell = document.createElement("a");
     checkEventType(event, eventCell);
     eventCell.textContent = event.title;
     eventCell.setAttribute("href", `index.html#${event.id}`);
-    eventCell.classList.add("event");
-    eventCell.classList.add("event-one-day");
+    eventCell.classList.add("one-day-event");
     calendar.children[iterator].appendChild(eventCell);
 }
 
-function createStartEvent(event, iterator, firstEvent) {
+function insertEvent(iterator, typeOfCell) {
+    if (calendar.children[iterator].lastChild.classList.value.includes("one-day-event")) {
+        calendar.children[iterator].insertBefore(typeOfCell, getFirstOneDayEvent(iterator));
+    } else if (calendar.children[iterator].lastChild.classList.value.includes("one-day-event") && calendar.children[iterator].firstChild.classList.value.includes("long-event")) {
+        calendar.children[iterator].insertBefore(typeOfCell, getFirstOneDayEvent(iterator));
+    } else {
+        calendar.children[iterator].appendChild(typeOfCell);
+    }
+}
+
+function createStartEvent(event, iterator) {
     const eventCell = document.createElement("a");
     checkEventType(event, eventCell);
     eventCell.textContent = event.title;
     eventCell.setAttribute("href", `index.html#${event.id}`);
-    eventCell.classList.add("event");
+    eventCell.classList.add("long-event");
     eventCell.classList.add("event-start");
-    calendar.children[iterator].insertBefore(eventCell, firstEvent);
+    insertEvent(iterator, eventCell);
 }
 
-function createContinueEvent(event, iterator, firstEvent) {
+function createContinueEvent(event, iterator) {
     const eventCellContinue = document.createElement("a");
     checkEventType(event, eventCellContinue);
     eventCellContinue.textContent = event.title;
     eventCellContinue.setAttribute("href", `index.html#${event.id}`);
-    eventCellContinue.classList.add("event");
+    eventCellContinue.classList.add("long-event");
     eventCellContinue.classList.add("event-continue");
-    if (!(calendar.children[iterator].firstEvent === null)) {
-        calendar.children[iterator].insertBefore(eventCellContinue, firstEvent);
-    } else {
-        calendar.children[iterator].appendChild(eventCellContinue);
-    }
+    insertEvent(iterator, eventCellContinue);
 }
 
-function createEndEvent(event, iterator, firstEvent) {
+function createEndEvent(event, iterator) {
     const eventCellEnd = document.createElement("a");
     checkEventType(event, eventCellEnd);
     eventCellEnd.textContent = event.title;
     eventCellEnd.setAttribute("href", `index.html#${event.id}`);
-    eventCellEnd.classList.add("event");
+    eventCellEnd.classList.add("long-event");
     eventCellEnd.classList.add("event-end");
-    if (!(calendar.children[iterator].firstEvent === null)) {
-        calendar.children[iterator].insertBefore(eventCellEnd, firstEvent);
-    } else {
-        calendar.children[iterator].appendChild(eventCellEnd);
-    }
+    insertEvent(iterator, eventCellEnd);
 }
 
+
+function getMaxNumOfEvents(event) {
+    const maxNumOfEvents = [];
+    for (let d = new Date(event.startDate).getDate(); d <= new Date(event.endDate).getDate(); d++) {
+        debugger
+        maxNumOfEvents.push(calendar.children[d].children.length - 1);
+    }
+    return Math.max(...maxNumOfEvents);
+}
+
+// function createEmptyEventSpace(iterator, maxNumOfEvents) {
+//     for (let d = 0; d < maxNumOfEvents - calendar.children[iterator].length; d++) {
+//         const emptyEventSpace = document.createElement("a");
+//         emptyEventSpace.classList.add("empty-space");
+//         calendar.children[iterator].appendChild(emptyEventSpace);
+//     }
+// }
+
 function createEventInDOM(event) {
-    let firstEvent;
+    let startDate = new Date(event.startDate).getDate();
+    let endDate = new Date(event.endDate).getDate();
     // Check every day of month so that dateChange's date equals one the day written in the calendar
     for (let i = 0; i < calendar.children.length; i++) {
-        if (calendar.children[i].firstChild !== null) {
-            firstEvent = calendar.children[i].firstChild.nextSibling;
-        }
-        if (new Date(event.startDate).getDate() === parseInt(calendar.children[i].textContent, 10) && new Date(event.startDate).getFullYear() === dateChange.getFullYear()) {
+        // const maxNumOfEvents = getMaxNumOfEvents(event);
+        // createEmptyEventSpace(i, maxNumOfEvents);
+        if (startDate === parseInt(calendar.children[i].textContent, 10) && new Date(event.startDate).getFullYear() === dateChange.getFullYear()) {
             // If event takes place only one day, apply specific styling
-            if (event.endDate === "" || new Date(event.startDate).getDate() === new Date(event.endDate).getDate()) {
+            if (event.endDate === "" || startDate === endDate) {
                 createSingleEvent(event, i);
                 // If it takes place more than one day, apply this styling
-            } else if (new Date(event.endDate).getDate() !== new Date(event.startDate).getDate()) {
+            } else if (endDate !== startDate) {
                 // Check if the day written in the calendar equals the startDate
-                if (parseInt(calendar.children[i].textContent, 10) === new Date(event.startDate).getDate()) {
-                    createStartEvent(event, i, firstEvent);
+                if (parseInt(calendar.children[i].textContent, 10) === startDate) {
+                    createStartEvent(event, i);
                 }
             }
         }
         // Check if the day written in the calendar is between the startEvent and endEvent days 
-        if ((parseInt(calendar.children[i].textContent, 10) > new Date(event.startDate).getDate() && (parseInt(calendar.children[i].textContent, 10) < new Date(event.endDate).getDate()) && new Date(event.startDate).getFullYear() === dateChange.getFullYear())) {
-            createContinueEvent(event, i, firstEvent);
+        if ((parseInt(calendar.children[i].textContent, 10) > startDate && (parseInt(calendar.children[i].textContent, 10) < endDate) && new Date(event.startDate).getFullYear() === dateChange.getFullYear())) {
+            createContinueEvent(event, i);
         }
+
         // Check if the day written in the calendar equals the end date
-        if (new Date(event.endDate).getDate() === parseInt(calendar.children[i].textContent, 10)) {
-            createEndEvent(event, i, firstEvent);
+        if ((startDate - endDate) !== 0) {
+            if (endDate === parseInt(calendar.children[i].textContent, 10) && new Date(event.startDate).getFullYear() === dateChange.getFullYear()) {
+                createEndEvent(event, i);
+            }
         }
     }
 }
@@ -315,5 +336,3 @@ const deleteEvent = (id) => {
         events.splice(eventIndex, 1)
     }
 }
-
-// de la startDate pana la endDate a evenimentului, sa puna a-uri goale de culoarea tipului evenimentului

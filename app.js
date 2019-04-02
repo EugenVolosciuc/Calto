@@ -105,7 +105,7 @@ closeBtnNew.addEventListener("click", () => {
 
 // View event details
 document.addEventListener("click", function (e) {
-    if (e.target.classList.contains("event")) {
+    if (e.target.classList.contains("one-day-event") || e.target.classList.contains("long-event")) {
         clickedEvent = findClickedEvent(e);
         // Get the keys and properties lists of the clickedEvent object
         const keys = getKeys(clickedEvent);

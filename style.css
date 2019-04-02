@@ -1,17 +1,17 @@
 /* Global */
 :root {
-    --background1: #D6A4A4;
-    --background2: #DAE2F8;
+    --background1: #cbf1f5;
+    --background2: #ffe6eb;
     --background3: #f7f3e3;
     --text-color: #333;
 
     /* Event type colors */
-    --work: #ef5959;
-    --study: #a432ce;
-    --free-time: #8181f7;
-    --family: #ccc71b;
-    --shopping: #1dccb2;
-    --holiday: #1fcc2b;
+    --work: #99ffb4;
+    --study: #99c1ff;
+    --free-time: #fff999;
+    --family: #ffc6df;
+    --shopping: #ff9999;
+    --holiday: #9f72d3;
 }
 
 body {
@@ -62,7 +62,7 @@ textarea, #startDate, #endDate {
 }
 
 #navigation i:hover {
-    color: var(--background2);
+    color: var(--free-time);
     transition: all 0.2s ease-in-out 0s;
 }
 
@@ -76,11 +76,11 @@ button {
     outline: transparent;
     border-style: none;
     transition: all 0.2s ease-in-out 0s;
-    background: var(--background2)
+    background: var(--study);
 }
 
 button:hover {
-    background: var(--background3);
+    background: var(--shopping);
 }
 
 
@@ -101,7 +101,6 @@ button:hover {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(6, 1fr);
-
 }
 
 .day {
@@ -116,7 +115,7 @@ button:hover {
 .day:hover {
     transform: scale(1.5);
     transition: all 0.2s ease-in-out 0s;
-    background-color: var(--background2);
+    background-color: var(--background3);
     display: inline-block;
     overflow-y: auto;
     overflow-x: hidden;
@@ -134,9 +133,9 @@ button:hover {
     margin: 0 0 5px 5px;
 }
 
-.event {
+.one-day-event, .long-event {
     display: inline-block;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     cursor: pointer;
     padding: 5px 0;
 }
@@ -145,9 +144,10 @@ button:hover {
     transform: scale(0.7);
     transition: all 0.2s ease-in-out 0s;
     border-radius: 15px; 
+    width: 100%;
 }
 
-.day .event-one-day {
+.day .one-day-event {
     margin: 0 auto 10px auto;
     border-radius: 15px; 
     width: 90%;
@@ -201,9 +201,12 @@ button:hover {
 }
 
 .empty-space {
+    font-size: 0.8rem;
     display: inline-block;
     width: 100%;
     padding: 5px 0;
+    visibility: hidden;
+    opacity: 0;
 }
 
 .day:hover .empty-space {
@@ -222,7 +225,7 @@ button:hover {
     background-color: var(--background3);
     border-radius: 10px;
     width: 30%;
-    height: 60%;
+    height: 70%;
     display: grid;
     grid-template-areas: 
         "h2 h2"
@@ -255,17 +258,9 @@ button:hover {
     transform: scale(1.6);
 }
 
-.new-event .close-new:hover, .view-event .close-view:hover, .view-event .fa-edit:hover, .edit-event .close-edit:hover, .edit-event .delete-event-icon:hover {
-    color: var(--background1);
-}
-
 .new-event button, .close-edit button, .edit-event button {
     justify-self: center;
     margin: 10px 0 0 0;
-}
-
-.new-event button:hover, .close-edit button:hover, .edit-event button:hover {
-    background-color: var(--background1);
 }
 
 .new-event-bg {
@@ -332,7 +327,7 @@ button:hover {
 }
 
 .view-event .fa-edit {
-    margin: 15px 0 0 5px;
+    margin: 20px 0 0 5px;
     transform: scale(1.4);
 }
 
@@ -389,21 +384,23 @@ button:hover {
 
 
 .delete-event-icon {
-    margin: 15px 0 0 0;
+    margin: 20px 0 0 0;
     display: block;
     transform: scale(1.4);
 }
 
 .delete-event #yesDelete {
-    background-color: var(--background2);
+    background-color: var(--study);
+    margin-right: 5px;
 }
 
 .delete-event #yesDelete:hover {
-    background-color: var(--background1);
+    background-color: var(--shopping);
 }
 
 .delete-event #noDelete {
-    background-color: var(--background2);
+    background-color: var(--study);
+    margin-left: 5px;
 }
 
 .delete-event a {

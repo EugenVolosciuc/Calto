@@ -24,14 +24,27 @@ todayBtn.addEventListener("click", function () {
     renderCalendar(currentDate, events);
 })
 
-next.addEventListener("click", function () {
+nextMonth.addEventListener("click", function () {
     dateChange.setMonth(dateChange.getMonth() + 1);
     renderHeading(dateChange);
     renderCalendar(dateChange, events);
 })
 
-previous.addEventListener("click", function () {
+previousMonth.addEventListener("click", function () {
     dateChange.setMonth(dateChange.getMonth() - 1);
+    renderHeading(dateChange);
+    renderCalendar(dateChange, events);
+})
+
+nextYear.addEventListener("click", function () {
+    dateChange.setYear(dateChange.getFullYear() + 1);
+    debugger
+    renderHeading(dateChange);
+    renderCalendar(dateChange, events);
+})
+
+previousYear.addEventListener("click", function () {
+    dateChange.setYear(dateChange.getFullYear() - 1);
     renderHeading(dateChange);
     renderCalendar(dateChange, events);
 })

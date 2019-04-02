@@ -1,17 +1,19 @@
 /* Global */
 :root {
-    --background1: #cbf1f5;
-    --background2: #ffe6eb;
-    --background3: #f7f3e3;
+    --background1: #d9f2f4;
+    --background2: #ffedf0;
+    --background3: #fcf8e8;
     --text-color: #333;
+    --nav: #9dbde8;
+    --nav-danger: #ec9192;
 
     /* Event type colors */
-    --work: #99ffb4;
-    --study: #99c1ff;
-    --free-time: #fff999;
-    --family: #ffc6df;
-    --shopping: #ff9999;
-    --holiday: #9f72d3;
+    --work: #b5f4c6;
+    --study: #b2d1ff;
+    --free-time: #f9f5b8;
+    --family: #ffe5f0;
+    --shopping: #ffaaaa;
+    --holiday: #b498d3;
 }
 
 body {
@@ -62,7 +64,7 @@ textarea, #startDate, #endDate {
 }
 
 #navigation i:hover {
-    color: var(--free-time);
+    color: var(--nav-danger);
     transition: all 0.2s ease-in-out 0s;
 }
 
@@ -76,11 +78,11 @@ button {
     outline: transparent;
     border-style: none;
     transition: all 0.2s ease-in-out 0s;
-    background: var(--study);
+    background: var(--nav);
 }
 
 button:hover {
-    background: var(--shopping);
+    background: var(--nav-danger);
 }
 
 
@@ -195,9 +197,15 @@ button:hover {
     background-color: var(--holiday);
 }
 
-.today {
-    background-color: var(--background1);
+.day .today {
+    float: left;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    background-color: #828282;
+    color: #fff;
     border-radius: 50%;
+    margin: 2px auto 5px 5px;
 }
 
 .empty-space {

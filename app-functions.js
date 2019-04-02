@@ -94,10 +94,20 @@ deleteEmptyCells = () => {
     }
 }
 
+function styleCurrentDay(currentDate) {
+    for (let i = 0; i < 41; i++) {
+        if (calendar.children[i].firstChild !== null) {
+            if (calendar.children[i].firstChild.textContent === `${currentDate.getDate()}` && month.textContent === currentDate.toLocaleString('en-us', { month: 'long' }) && year.textContent === `${currentDate.getFullYear()}`) {
+                calendar.children[i].firstChild.classList.add("today");
+            }
+        }
+    }
+}
+
 // Render calendar in grid
-renderCalendar = (date, events) => {
-    let firstDay = new Date(date.getFullYear(), date.getMonth(), 1).toLocaleString('en-us', { weekday: 'long' });
-    let daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+renderCalendar = (dateChange, events) => {
+    let firstDay = new Date(dateChange.getFullYear(), dateChange.getMonth(), 1).toLocaleString('en-us', { weekday: 'long' });
+    let daysInMonth = new Date(dateChange.getFullYear(), dateChange.getMonth() + 1, 0).getDate();
     for (let i = 0; i < 42; i++) {
         calendar.children[i].innerHTML = "";
     }
@@ -109,6 +119,7 @@ renderCalendar = (date, events) => {
             break;
         }
     }
+    styleCurrentDay(currentDate);
     restoreEmptyCells();
     deleteEmptyCells();
     updateCalendarEvents(currentMonthEvents(events));

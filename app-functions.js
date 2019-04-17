@@ -228,7 +228,6 @@ function createEndEvent(event, iterator) {
 function getMaxNumOfEvents(event) {
     const maxNumOfEvents = [];
     for (let d = new Date(event.startDate).getDate(); d <= new Date(event.endDate).getDate(); d++) {
-        debugger
         maxNumOfEvents.push(calendar.children[d].children.length - 1);
     }
     return Math.max(...maxNumOfEvents);

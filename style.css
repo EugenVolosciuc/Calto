@@ -199,8 +199,8 @@ button:hover {
 
 .day .today {
     float: left;
-    width: 25px;
-    height: 25px;
+    width: 21px;
+    height: 20px;
     text-align: center;
     background-color: #828282;
     color: #fff;

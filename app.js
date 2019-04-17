@@ -38,7 +38,6 @@ previousMonth.addEventListener("click", function () {
 
 nextYear.addEventListener("click", function () {
     dateChange.setYear(dateChange.getFullYear() + 1);
-    debugger
     renderHeading(dateChange);
     renderCalendar(dateChange, events);
 })
